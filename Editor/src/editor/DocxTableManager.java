@@ -8,11 +8,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.List;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFTable;
+
 
 /**
  *
  * @author ALISSONRAQUELMARTINE
  */
+
+
 public class DocxTableManager {
 
     public void crearArchivo(File archivo) throws Exception {
