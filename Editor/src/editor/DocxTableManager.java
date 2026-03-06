@@ -7,6 +7,7 @@ package editor;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
@@ -30,28 +31,39 @@ public class DocxTableManager {
     }
 
     public void guardarTabla(File archivo, List<String[]> datos, String[] encabezados) throws Exception {
-        try (XWPFDocument document = new XWPFDocument();
-             FileOutputStream fos = new FileOutputStream(archivo)) {
 
-            XWPFTable table = document.createTable(datos.size() + 1, encabezados.length);
+    try (XWPFDocument document = new XWPFDocument();
+         FileOutputStream fos = new FileOutputStream(archivo)) {
+
+        XWPFTable table = document.createTable();
+
+        for (int c = 0; c < encabezados.length; c++) {
+            if (c == 0) {
+                table.getRow(0).getCell(0).setText(encabezados[0]);
+            } else {
+                table.getRow(0).addNewTableCell().setText(encabezados[c]);
+            }
+        }
+
+        for (int r = 0; r < datos.size(); r++) {
+
+            org.apache.poi.xwpf.usermodel.XWPFTableRow row = table.createRow();
 
             for (int c = 0; c < encabezados.length; c++) {
-                table.getRow(0).getCell(c).setText(encabezados[c]);
-            }
 
-            for (int r = 0; r < datos.size(); r++) {
-                for (int c = 0; c < encabezados.length; c++) {
-                    String valor = "";
-                    if (c < datos.get(r).length && datos.get(r)[c] != null) {
-                        valor = datos.get(r)[c];
-                    }
-                    table.getRow(r + 1).getCell(c).setText(valor);
+                String valor = "";
+
+                if (c < datos.get(r).length && datos.get(r)[c] != null) {
+                    valor = datos.get(r)[c];
                 }
-            }
 
-            document.write(fos);
+                row.getCell(c).setText(valor);
+            }
         }
+
+        document.write(fos);
     }
+}
 
     public List<String[]> leerTabla(File archivo) throws Exception {
         List<String[]> datos = new ArrayList<>();
