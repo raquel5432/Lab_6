@@ -138,4 +138,25 @@ public class DocxTableManager {
         sb.append("Tamaño: ").append(archivo.exists() ? archivo.length() + " bytes" : "0 bytes").append("\n");
         return sb.toString();
     }
+    
+    public String leerTexto(File archivo) throws Exception {
+    try (FileInputStream fis = new FileInputStream(archivo);
+         XWPFDocument doc = new XWPFDocument(fis)) {
+        StringBuilder sb = new StringBuilder();
+        for (org.apache.poi.xwpf.usermodel.XWPFParagraph p : doc.getParagraphs()) {
+            sb.append(p.getText()).append("\n");
+        }
+        return sb.toString();
+    }
+}
+
+public void guardarTexto(File archivo, String texto) throws Exception {
+    try (XWPFDocument doc = new XWPFDocument();
+         FileOutputStream fos = new FileOutputStream(archivo)) {
+        org.apache.poi.xwpf.usermodel.XWPFParagraph p = doc.createParagraph();
+        org.apache.poi.xwpf.usermodel.XWPFRun run = p.createRun();
+        run.setText(texto);
+        doc.write(fos);
+    }
+}
 }
