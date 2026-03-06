@@ -39,7 +39,7 @@ public class DocxTableManager {
 
         for (int c = 0; c < encabezados.length; c++) {
             if (c == 0) {
-                table.getRow(0).getCell(0).setText(encabezados[0]);
+                table.getRow(0).getCell(0).setText(encabezados[0]); 
             } else {
                 table.getRow(0).addNewTableCell().setText(encabezados[c]);
             }
