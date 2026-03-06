@@ -18,9 +18,8 @@ public class GUI extends JFrame {
 
     private Editor logica;
     private JTextPane areaTexto;
-    private FormatoTexto formato;  // clase del compañero
+    private FormatoTexto formato;  
 
-    // Controles de la barra
     private JComboBox<String> cmbFuente;
     private JComboBox<Integer> cmbTamanio;
     private JButton btnColor;
@@ -41,14 +40,13 @@ public class GUI extends JFrame {
         setLocationRelativeTo(null);
 
         add(crearBarraHerramientas(), BorderLayout.NORTH);
-        add(crearAreaTexto(),         BorderLayout.CENTER);  // areaTexto se crea aqui
+        add(crearAreaTexto(),         BorderLayout.CENTER);  
         add(crearBarraEstado(),       BorderLayout.SOUTH);
         setJMenuBar(crearMenu());
 
-        formato = new FormatoTexto(areaTexto);  // se crea despues de areaTexto
+        formato = new FormatoTexto(areaTexto);  
     }
 
-    // BARRA DE HERRAMIENTAS
     private JPanel crearBarraHerramientas() {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
@@ -70,14 +68,12 @@ public class GUI extends JFrame {
 
         panel.add(new JSeparator(SwingConstants.VERTICAL));
 
-        // Color
         panel.add(new JLabel("Color:"));
         btnColor = new JButton("  A  ");
         btnColor.setForeground(colorElegido);
         btnColor.addActionListener(e -> elegirColor());
         panel.add(btnColor);
 
-        // Negrita, Cursiva, Subrayado
         JButton btnB = new JButton("B");
         btnB.setFont(new Font("Arial", Font.BOLD, 14));
         btnB.addActionListener(e -> aplicarNegrita());
@@ -94,7 +90,6 @@ public class GUI extends JFrame {
 
         panel.add(new JSeparator(SwingConstants.VERTICAL));
 
-        // Colores predefinidos
         panel.add(new JLabel("Colores utilizados:"));
         for (Color c : coloresUsados) {
             JButton btn = new JButton();
@@ -111,7 +106,6 @@ public class GUI extends JFrame {
         return panel;
     }
 
-    // AREA DE TEXTO
     private JScrollPane crearAreaTexto() {
         areaTexto = new JTextPane();
         areaTexto.setEditorKit(logica.getRtfKit());
@@ -120,14 +114,12 @@ public class GUI extends JFrame {
         return new JScrollPane(areaTexto);
     }
 
-    // BARRA DE ESTADO
     private JLabel crearBarraEstado() {
         JLabel lbl = new JLabel("  Listo");
         lbl.setBorder(BorderFactory.createEtchedBorder());
         return lbl;
     }
 
-    // MENU
     private JMenuBar crearMenu() {
         JMenuBar menuBar = new JMenuBar();
 
@@ -164,7 +156,6 @@ public class GUI extends JFrame {
         return menuBar;
     }
 
-    // ACCIONES DE FORMATO - ahora usan la clase del compañero
     private void cambiarFuente() {
         String fuente = (String) cmbFuente.getSelectedItem();
         formato.cambiarFuente(fuente);
@@ -200,7 +191,6 @@ public class GUI extends JFrame {
         formato.ponerSubrayado();
     }
 
-    // ACCIONES DE ARCHIVO - siguen siendo tuyas
     private void nuevo() {
         areaTexto.setText("");
     }
